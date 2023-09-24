@@ -54,11 +54,13 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void display7SEG(int num){
+void display7SEG(int num1, int num2){
 	//cac chan cua led 7 doan tuong ung  0 1 2 3 4 5 6 7 8 9
-	uint16_t LED7SEG[10] = {0x003F, 0x0006, 0x005B, 0x004F, 0x0066, 0x006D, 0x007D, 0x0007, 0x007F, 0x006F};
+	uint16_t LED7SEG1[10] = {0x003F, 0x0006, 0x005B, 0x004F, 0x0066, 0x006D, 0x007D, 0x0007, 0x007F, 0x006F};
+	uint16_t LED7SEG2[10] = {0x3F00, 0x0600, 0x5B00, 0x4F00, 0x6600, 0x6D00, 0x7D00, 0x0700, 0x7F00, 0x6F00};
 
-	GPIOB->ODR = ~LED7SEG[num];
+	uint16_t LED7SEG = LED7SEG1[num1] + LED7SEG2[num2];
+	GPIOB->ODR = ~LED7SEG;
 }
 /* USER CODE END 0 */
 
@@ -97,20 +99,18 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  int counter = 0;
-  /*int red_green = 3;
+  int counter1 = 0;
+  int counter2 = 0;
+  int red_green = 3;
   int red_yellow = 2;
   int green_red = 3;
   int yellow_red = 2;
 
   HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin|LED_YELLOW_1_Pin|LED_GREEN_1_Pin|LED_RED_2_Pin
-                            |LED_YELLOW_2_Pin|LED_GREEN_2_Pin, GPIO_PIN_SET);*/
+                            |LED_YELLOW_2_Pin|LED_GREEN_2_Pin, GPIO_PIN_SET);
 
-  while (1)
-  {
-	  if (counter >= 10) counter = 0;
-	  display7SEG(counter++);
-	  /*if (red_green <= 0 && red_yellow <= 0 &&  green_red <= 0 && yellow_red <= 0){
+  while (1){
+	  if (red_green <= 0 && red_yellow <= 0 &&  green_red <= 0 && yellow_red <= 0){
 		  red_green = 3;
 		  red_yellow = 2;
 		  green_red = 3;
@@ -126,6 +126,8 @@ int main(void)
 		  HAL_GPIO_WritePin(LED_GREEN_2_GPIO_Port, LED_GREEN_2_Pin, GPIO_PIN_RESET);
 
 		  red_green--;
+		  counter1 = red_green + red_yellow;
+		  counter2 = red_green;
 	  }
 	  else if (red_yellow > 0){
 
@@ -136,6 +138,7 @@ int main(void)
 		  HAL_GPIO_WritePin(LED_YELLOW_2_GPIO_Port, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
 
 		  red_yellow--;
+		  counter1 = counter2 = red_yellow;
 	  }
 	  else if (green_red > 0){
 
@@ -146,6 +149,8 @@ int main(void)
 		  HAL_GPIO_WritePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin, GPIO_PIN_RESET);
 
 		  green_red--;
+		  counter1 = green_red;
+		  counter2 = green_red + yellow_red;
 	  }
 	  else if (yellow_red > 0){
 
@@ -155,9 +160,12 @@ int main(void)
 		  HAL_GPIO_WritePin(LED_YELLOW_2_GPIO_Port, LED_YELLOW_2_Pin, GPIO_PIN_SET);
 		  HAL_GPIO_WritePin(LED_RED_2_GPIO_Port, LED_RED_2_Pin, GPIO_PIN_RESET);
 
-		  yellow_red--;
-	  }*/
 
+		  yellow_red--;
+		  counter1 = counter2 = yellow_red;
+	  }
+
+	  display7SEG(counter1, counter2);
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
@@ -219,8 +227,10 @@ static void MX_GPIO_Init(void)
                           |LED_YELLOW_2_Pin|LED_GREEN_2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, a_Pin|b_Pin|c_Pin|d_Pin
-                          |e_Pin|f_Pin|g_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, a_Pin|b_Pin|c_Pin|c1_Pin
+                          |d1_Pin|e1_Pin|f1_Pin|g1_Pin
+                          |d_Pin|e_Pin|f_Pin|g_Pin
+                          |a1_Pin|b1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED_RED_1_Pin LED_YELLOW_1_Pin LED_GREEN_1_Pin LED_RED_2_Pin
                            LED_YELLOW_2_Pin LED_GREEN_2_Pin */
@@ -231,10 +241,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : a_Pin b_Pin c_Pin d_Pin
-                           e_Pin f_Pin g_Pin */
-  GPIO_InitStruct.Pin = a_Pin|b_Pin|c_Pin|d_Pin
-                          |e_Pin|f_Pin|g_Pin;
+  /*Configure GPIO pins : a_Pin b_Pin c_Pin c1_Pin
+                           d1_Pin e1_Pin f1_Pin g1_Pin
+                           d_Pin e_Pin f_Pin g_Pin
+                           a1_Pin b1_Pin */
+  GPIO_InitStruct.Pin = a_Pin|b_Pin|c_Pin|c1_Pin
+                          |d1_Pin|e1_Pin|f1_Pin|g1_Pin
+                          |d_Pin|e_Pin|f_Pin|g_Pin
+                          |a1_Pin|b1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
