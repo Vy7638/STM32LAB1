@@ -152,7 +152,7 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  int count = 0;
+  int count = 0; // EX6
  80001a2:	2300      	movs	r3, #0
  80001a4:	607b      	str	r3, [r7, #4]
   /* USER CODE BEGIN WHILE */
