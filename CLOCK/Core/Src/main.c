@@ -96,6 +96,10 @@ void setNumberOnClock(int num){
 			break;
 	}
 }
+
+void clearAllClock(){
+	GPIOA -> ODR = 0xFFF0;
+}
 /* USER CODE END 0 */
 
 /**
@@ -131,14 +135,35 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  int count = 0;
+  int hour = 0;
+  int minute = 0;
+  int second = 0;
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  if (count >= 12) count = 0;
-	  setNumberOnClock(count++);
+
+	  if (second >= 60) {
+	  	  second = 0;
+	  	  minute++;
+	  }
+	  if (minute >= 60) {
+	  	  minute = 0;
+	  	  hour++;
+	  }
+	  if (hour >= 12) {
+		  hour = 0;
+		  minute = 0;
+		  second = 0;
+	  }
+
+	  clearAllClock();
+	  setNumberOnClock(hour);
+	  setNumberOnClock(minute / 5);
+	  setNumberOnClock(second / 5);
 	  HAL_Delay(1000);
+
+	  second++;
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
