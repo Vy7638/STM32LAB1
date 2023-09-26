@@ -54,7 +54,12 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void turnonled(int num){
+	Uint16_t onled[12] = 	{0x0010, 0x0030, 0x0070, 0x00F0, 0x01F0, 0x03F0,
+							0x07F0, 0x0FF0, 0x1FF0, 0x3FF0, 0x7FF0, 0xFFF0};
 
+	GPIOA -> ODR = ~onled[num];
+}
 /* USER CODE END 0 */
 
 /**
@@ -90,11 +95,13 @@ int main(void)
   /* USER CODE END 2 */
 
   /* Infinite loop */
+  int count = 0;
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  if (int count >= 12) count = 0;
+	  turnonled(count);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
