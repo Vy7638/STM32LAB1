@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00004544  00000000  00000000  00039b83  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0007993d  00000000  00000000  0003e0c7  2**0
+ 18 .debug_str    00079943  00000000  00000000  0003e0c7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000b7a04  2**0
+ 19 .comment      00000053  00000000  00000000  000b7a0a  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000d5c  00000000  00000000  000b7a58  2**2
+ 20 .debug_frame  00000d5c  00000000  00000000  000b7a60  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -76,19 +76,19 @@ Disassembly of section .text:
  8000144:	20000010 	.word	0x20000010
  8000148:	080011c4 	.word	0x080011c4
 
-0800014c <turnonled>:
+0800014c <turnOnLed>:
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void turnonled(int num){
+void turnOnLed(int num){
  800014c:	b4b0      	push	{r4, r5, r7}
  800014e:	b089      	sub	sp, #36	; 0x24
  8000150:	af00      	add	r7, sp, #0
  8000152:	6078      	str	r0, [r7, #4]
 	uint16_t onled[12] = 	{0x0010, 0x0020, 0x0040, 0x0080, 0x0100, 0x0200,
- 8000154:	4b0c      	ldr	r3, [pc, #48]	; (8000188 <turnonled+0x3c>)
+ 8000154:	4b0c      	ldr	r3, [pc, #48]	; (8000188 <turnOnLed+0x3c>)
  8000156:	f107 0408 	add.w	r4, r7, #8
  800015a:	461d      	mov	r5, r3
  800015c:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
@@ -104,7 +104,7 @@ void turnonled(int num){
  8000170:	4413      	add	r3, r2
  8000172:	f833 3c18 	ldrh.w	r3, [r3, #-24]
  8000176:	43da      	mvns	r2, r3
- 8000178:	4b04      	ldr	r3, [pc, #16]	; (800018c <turnonled+0x40>)
+ 8000178:	4b04      	ldr	r3, [pc, #16]	; (800018c <turnOnLed+0x40>)
  800017a:	60da      	str	r2, [r3, #12]
 }
  800017c:	bf00      	nop
@@ -165,12 +165,12 @@ int main(void)
  80001aa:	dd01      	ble.n	80001b0 <main+0x20>
  80001ac:	2300      	movs	r3, #0
  80001ae:	607b      	str	r3, [r7, #4]
-	  turnonled(count++);
+	  turnOnLed(count++);
  80001b0:	687b      	ldr	r3, [r7, #4]
  80001b2:	1c5a      	adds	r2, r3, #1
  80001b4:	607a      	str	r2, [r7, #4]
  80001b6:	4618      	mov	r0, r3
- 80001b8:	f7ff ffc8 	bl	800014c <turnonled>
+ 80001b8:	f7ff ffc8 	bl	800014c <turnOnLed>
 	  HAL_Delay(1000);
  80001bc:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
  80001c0:	f000 f95e 	bl	8000480 <HAL_Delay>
