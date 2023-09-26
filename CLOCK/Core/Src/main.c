@@ -60,6 +60,10 @@ void turnOnLed(int num){
 
 	GPIOA -> ODR = ~onled[num];
 }
+
+void clearAllClock(){
+	GPIOA -> ODR = 0xFFF0;
+}
 /* USER CODE END 0 */
 
 /**
@@ -100,7 +104,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  if (count >= 12) count = 0;
+	  if (count >= 12) {
+		  count = 0;
+	  }
 	  turnOnLed(count++);
 	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
